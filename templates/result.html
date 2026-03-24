@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AdaptLearn — Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+</head>
+<body class="result-page">
+
+  <div class="grain"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="result-container">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">AdaptLearn</span>
+      </div>
+      <a href="/" class="btn-back">← Try Another PDF</a>
+    </header>
+
+    <!-- Score hero -->
+    <div class="score-hero">
+      <div class="score-circle" id="scoreCircle">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle class="ring-bg"  cx="60" cy="60" r="52"/>
+          <circle class="ring-fill" cx="60" cy="60" r="52"
+                  id="ringFill"
+                  stroke-dasharray="326.7"
+                  stroke-dashoffset="326.7"/>
+        </svg>
+        <div class="score-inner">
+          <span class="score-percent" id="scorePercent">0%</span>
+          <span class="score-label">Score</span>
+        </div>
+      </div>
+
+      <div class="score-stats">
+        <div class="stat-chip stat-total">
+          <span class="stat-num">{{ total }}</span>
+          <span class="stat-tag">Total Questions</span>
+        </div>
+        <div class="stat-chip stat-correct">
+          <span class="stat-num">{{ correct }}</span>
+          <span class="stat-tag">Correct</span>
+        </div>
+        <div class="stat-chip stat-wrong">
+          <span class="stat-num">{{ total - correct }}</span>
+          <span class="stat-tag">Wrong</span>
+        </div>
+      </div>
+
+      <!-- Performance badge -->
+      <div class="perf-badge" id="perfBadge">
+        {% if score_percent >= 80 %}
+          <span class="perf-icon">🏆</span>
+          <span class="perf-text">Excellent! Outstanding performance!</span>
+        {% elif score_percent >= 60 %}
+          <span class="perf-icon">👍</span>
+          <span class="perf-text">Good Job! Keep it up!</span>
+        {% elif score_percent >= 40 %}
+          <span class="perf-icon">📚</span>
+          <span class="perf-text">Fair attempt. Review and retry!</span>
+        {% else %}
+          <span class="perf-icon">💪</span>
+          <span class="perf-text">Keep studying — you'll get there!</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Detailed answers -->
+    <h2 class="section-title">Question Review</h2>
+
+    <div class="review-list">
+      {% for r in results %}
+      <div class="review-card {% if r.is_correct %}correct{% else %}wrong{% endif %}">
+
+        <div class="review-top">
+          <span class="review-num">Q{{ loop.index }}</span>
+          <span class="review-verdict">
+            {% if r.is_correct %}✓ Correct{% else %}✗ Wrong{% endif %}
+          </span>
+        </div>
+
+        <p class="review-question">{{ r.question }}</p>
+
+        <div class="review-options">
+          {% for key, value in r.options.items() %}
+          <div class="review-option
+            {% if key == r.correct_answer %}opt-correct{% endif %}
+            {% if key == r.user_answer and not r.is_correct %}opt-user-wrong{% endif %}">
+            <span class="opt-key">{{ key }}</span>
+            <span class="opt-val">{{ value }}</span>
+            {% if key == r.correct_answer %}
+              <span class="opt-tag correct-tag">✓ Correct</span>
+            {% endif %}
+            {% if key == r.user_answer and not r.is_correct %}
+              <span class="opt-tag wrong-tag">Your answer</span>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Action buttons -->
+    <div class="result-actions">
+      <a href="/" class="btn-primary">
+        <span class="btn-text">Upload New PDF</span>
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+
+  </div><!-- /result-container -->
+
+  <!-- Pass score to JS for animation -->
+  <!-- Pass score to JS for animation -->
+  <script>
+    const SCORE_PERCENT = parseFloat("{{ score_percent }}");
+  </script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script></body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AdaptLearn — Upload PDF</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+</head>
+<body class="upload-page">
+
+  <!-- Background grain overlay -->
+  <div class="grain"></div>     
+
+  <!-- Floating blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="upload-container">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">AdaptLearn</span>
+      </div>
+      <p class="logo-sub">AI-Powered Adaptive Learning System</p>
+    </header>
+
+    <!-- Hero tagline -->
+    <div class="hero-text">
+      <h1>Turn any PDF into<br><em>an instant quiz.</em></h1>
+      <p class="hero-sub">Upload your study material. We'll summarise it and generate 10 smart MCQs — powered by AI.</p>
+    </div>
+
+    <!-- Error message (shown only when Flask passes one) -->
+    {% if error %}
+    <div class="alert alert-error">
+      <span class="alert-icon">⚠</span>
+      <span>{{ error }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Upload Card -->
+    <div class="upload-card" id="uploadCard">
+      <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+
+        <!-- Drop zone -->
+        <div class="drop-zone" id="dropZone">
+          <div class="drop-icon">📄</div>
+          <p class="drop-title">Drag &amp; drop your PDF here</p>
+          <p class="drop-sub">or click to browse files</p>
+          <input type="file" id="pdf_file" name="pdf_file" accept=".pdf" class="file-input" required />
+        </div>
+
+        <!-- File preview -->
+        <div class="file-preview hidden" id="filePreview">
+          <span class="file-icon">📋</span>
+          <span class="file-name" id="fileName">No file selected</span>
+          <button type="button" class="btn-clear" id="clearFile" title="Remove file">✕</button>
+        </div>
+
+        <!-- Process button -->
+        <button type="submit" class="btn-primary" id="submitBtn" disabled>
+          <span class="btn-text">Generate Quiz</span>
+          <span class="btn-arrow">→</span>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps-row">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-label">Upload PDF</div>
+      </div>
+      <div class="step-divider">···</div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-label">AI Summarises</div>
+      </div>
+      <div class="step-divider">···</div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-label">Quiz Generated</div>
+      </div>
+      <div class="step-divider">···</div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-label">Get Your Score</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Loading overlay (shown while processing) -->
+  <div class="loading-overlay hidden" id="loadingOverlay">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <p class="loading-title" id="loadingTitle">Processing your PDF…</p>
+      <p class="loading-sub" id="loadingSub">This may take up to a minute. Please wait.</p>
+      <div class="loading-steps">
+        <div class="lstep" id="lstep1">📄 Extracting text</div>
+        <div class="lstep" id="lstep2">🤖 Summarising content</div>
+        <div class="lstep" id="lstep3">✏️ Generating quiz questions</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
