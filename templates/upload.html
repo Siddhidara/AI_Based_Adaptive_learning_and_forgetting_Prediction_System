@@ -25,7 +25,13 @@
         <span class="logo-icon">⚡</span>
         <span class="logo-text">AdaptLearn</span>
       </div>
-      <p class="logo-sub">AI-Powered Adaptive Learning System</p>
+      {% if current_user.is_authenticated %}
+      <div class="auth-info">
+        <a href="/my-documents" class="btn-documents">📚 My Documents</a>
+        <span class="user-greeting">Welcome, <strong>{{ current_user.username }}</strong></span>
+        <a href="/logout" class="btn-logout">Log Out</a>
+      </div>
+      {% endif %}
     </header>
 
     <!-- Hero tagline -->

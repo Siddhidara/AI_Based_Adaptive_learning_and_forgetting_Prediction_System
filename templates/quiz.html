@@ -20,7 +20,10 @@
         <span class="logo-icon">⚡</span>
         <span class="logo-text">AdaptLearn</span>
       </div>
-      <a href="/" class="btn-back">← New PDF</a>
+      <div class="auth-info">
+        <a href="/my-documents" class="btn-documents">📚 My Documents</a>
+        <a href="/" class="btn-back">← Upload PDF</a>
+      </div>
     </header>
 
     <!-- Summary panel -->
@@ -37,7 +40,7 @@
     <!-- Quiz header -->
     <div class="quiz-header">
       <div>
-        <h1 class="quiz-title">Your Quiz</h1>
+        <h1 class="quiz-title">{% if document_title %}{{ document_title }}{% else %}Your Quiz{% endif %}</h1>
         <p class="quiz-subtitle">Answer all {{ questions|length }} questions, then submit.</p>
       </div>
       <div class="progress-box">

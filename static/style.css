@@ -88,6 +88,34 @@ a { color: inherit; text-decoration: none; }
 }
 .logo-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
 
+/* Auth info (user welcome message) */
+.auth-info {
+  display: flex; align-items: center; gap: 1rem;
+}
+.user-greeting {
+  font-size: 0.9rem; color: var(--muted);
+}
+.user-greeting strong { color: var(--chalk); font-weight: 600; }
+.btn-documents {
+  font-size: 0.85rem; color: var(--chalk); font-weight: 500;
+  border: 1px solid rgba(245,166,35,0.3); padding: 0.5rem 1rem;
+  border-radius: 20px; transition: all 0.2s;
+  display: inline-block;
+}
+.btn-documents:hover {
+  background: rgba(245,166,35,0.1); border-color: var(--amber);
+  color: var(--amber);
+}
+.btn-logout {
+  font-size: 0.85rem; color: var(--amber); font-weight: 500;
+  border: 1px solid rgba(245,166,35,0.3); padding: 0.5rem 1rem;
+  border-radius: 20px; transition: all 0.2s;
+  display: inline-block;
+}
+.btn-logout:hover {
+  background: rgba(245,166,35,0.1); border-color: var(--amber);
+}
+
 .btn-back {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem; font-weight: 500;
@@ -466,3 +494,98 @@ a { color: inherit; text-decoration: none; }
 
 /* Result actions */
 .result-actions { display: flex; justify-content: center; padding-top: 1rem; }
+
+
+/* =============================================================
+   AUTH PAGES (LOGIN / REGISTER)
+   ============================================================= */
+.auth-page .auth-container {
+  max-width: 420px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+  position: relative; z-index: 5;
+}
+
+/* Auth hero text */
+.auth-page .hero-text { margin-bottom: 2.5rem; text-align: center; }
+.auth-page .hero-text h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800; letter-spacing: -0.02em;
+}
+.auth-page .hero-sub { margin-top: 0.75rem; }
+
+/* Alert styling in auth pages */
+.auth-page .alert { margin-bottom: 1.5rem; }
+.alert-success { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+
+/* Auth card */
+.auth-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 2rem;
+  backdrop-filter: blur(12px);
+  position: relative; z-index: 5;
+}
+
+/* Form group */
+.form-group { margin-bottom: 1.5rem; }
+.form-label {
+  display: block; font-size: 0.9rem; font-weight: 500;
+  color: var(--chalk); margin-bottom: 0.5rem;
+}
+.form-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm); padding: 0.85rem 1rem;
+  color: var(--chalk); font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.form-input::placeholder { color: var(--muted); }
+.form-input:focus {
+  outline: none; border-color: var(--amber); background: rgba(245,166,35,0.05);
+}
+.form-hint {
+  display: block; font-size: 0.78rem; color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+/* Form checkbox */
+.form-checkbox {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+.form-checkbox input[type="checkbox"] {
+  width: 18px; height: 18px; cursor: pointer;
+  accent-color: var(--amber);
+}
+.form-checkbox label { cursor: pointer; font-size: 0.92rem; }
+
+/* Button block (full width) */
+.btn-block { width: 100%; }
+
+/* Form divider */
+.form-divider {
+  text-align: center; color: var(--muted);
+  margin: 1.75rem 0; font-size: 0.85rem;
+  position: relative;
+}
+.form-divider::before {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 50%;
+  border-top: 1px solid var(--card-border);
+  z-index: -1;
+}
+.form-divider { background: var(--card-bg); padding: 0 0.75rem; }
+
+/* Auth footer */
+.auth-footer {
+  text-align: center; font-size: 0.92rem;
+}
+.auth-link {
+  color: var(--amber); font-weight: 600;
+  transition: color 0.2s;
+}
+.auth-link:hover { color: #fbbf24; }
+
+/* Responsive tweaks for auth pages */
+@media (max-width: 480px) {
+  .auth-card { padding: 1.5rem; }
+  .auth-page .hero-text h1 { font-size: 1.75rem; }
+}
