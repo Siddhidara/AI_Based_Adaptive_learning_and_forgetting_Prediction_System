@@ -266,3 +266,33 @@ def schedule_next_revision(user_id, concept_id, interval_days, forgetting_prob, 
     
     db.session.commit()
     return schedule
+class StudentFeature(db.Model):
+    """ML Training Feature Table"""
+    __tablename__ = "student_features"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Student Info
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    student_category = db.Column(db.String(20))  # Weak / Average / Topper
+    student_historical_avg = db.Column(db.Float)
+
+    # Concept Info
+    concept_id = db.Column(db.Integer, db.ForeignKey("concepts.id"), nullable=False)
+    concept_name = db.Column(db.String(255))
+    subject = db.Column(db.String(100))
+    concept_difficulty = db.Column(db.String(20))  # Easy / Medium / Hard
+    diff_numeric = db.Column(db.Integer)
+
+    # Performance
+    num_attempts = db.Column(db.Integer)
+    latest_quiz_score = db.Column(db.Float)
+    avg_quiz_score = db.Column(db.Float)
+    score_trend = db.Column(db.Float)
+
+    # Time + Memory
+    days_since_last_attempt = db.Column(db.Float)
+    retention_score = db.Column(db.Float)
+    days_until_revision = db.Column(db.Float)
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)

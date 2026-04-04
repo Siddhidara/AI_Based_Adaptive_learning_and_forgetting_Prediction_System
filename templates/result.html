@@ -1,132 +1,256 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AdaptLearn — Results</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-</head>
-<body class="result-page">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdaptLearn — Results</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="result-page">
+    <div class="grain"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
 
-  <div class="grain"></div>
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-
-  <div class="result-container">
-
-    <!-- Header -->
-    <header class="site-header">
-      <div class="logo">
-        <span class="logo-icon">⚡</span>
-        <span class="logo-text">AdaptLearn</span>
-      </div>
-      <div class="auth-info">
-        <a href="/my-documents" class="btn-documents">📚 My Documents</a>
-        <a href="/" class="btn-back">← Upload PDF</a>
-      </div>
-    </header>
-
-    <!-- Score hero -->
-    <div class="score-hero">
-      <div class="score-circle" id="scoreCircle">
-        <svg class="score-ring" viewBox="0 0 120 120">
-          <circle class="ring-bg"  cx="60" cy="60" r="52"/>
-          <circle class="ring-fill" cx="60" cy="60" r="52"
-                  id="ringFill"
-                  stroke-dasharray="326.7"
-                  stroke-dashoffset="326.7"/>
-        </svg>
-        <div class="score-inner">
-          <span class="score-percent" id="scorePercent">0%</span>
-          <span class="score-label">Score</span>
+    <div class="result-container">
+      <header class="site-header">
+        <div class="logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">AdaptLearn</span>
         </div>
-      </div>
+        <div class="auth-info">
+          <a href="/my-documents" class="btn-documents">📚 My Documents</a>
+          <a href="/" class="btn-back">← Upload PDF</a>
+        </div>
+      </header>
 
-      <div class="score-stats">
-        <div class="stat-chip stat-total">
-          <span class="stat-num">{{ total }}</span>
-          <span class="stat-tag">Total Questions</span>
+      <div class="score-hero">
+        <div class="score-circle" id="scoreCircle">
+          <svg class="score-ring" viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="52" />
+            <circle
+              class="ring-fill"
+              cx="60"
+              cy="60"
+              r="52"
+              id="ringFill"
+              stroke-dasharray="326.7"
+              stroke-dashoffset="326.7"
+            />
+          </svg>
+          <div class="score-inner">
+            <span class="score-percent" id="scorePercent">0%</span>
+            <span class="score-label">Score</span>
+          </div>
         </div>
-        <div class="stat-chip stat-correct">
-          <span class="stat-num">{{ correct }}</span>
-          <span class="stat-tag">Correct</span>
-        </div>
-        <div class="stat-chip stat-wrong">
-          <span class="stat-num">{{ total - correct }}</span>
-          <span class="stat-tag">Wrong</span>
-        </div>
-      </div>
 
-      <!-- Performance badge -->
-      <div class="perf-badge" id="perfBadge">
-        {% if score_percent >= 80 %}
+        <div class="score-stats">
+          <div class="stat-chip stat-total">
+            <span class="stat-num">{{ total }}</span>
+            <span class="stat-tag">Total Questions</span>
+          </div>
+          <div class="stat-chip stat-correct">
+            <span class="stat-num">{{ correct }}</span>
+            <span class="stat-tag">Correct</span>
+          </div>
+          <div class="stat-chip stat-wrong">
+            <span class="stat-num">{{ total - correct }}</span>
+            <span class="stat-tag">Wrong</span>
+          </div>
+        </div>
+
+        <div class="perf-badge" id="perfBadge">
+          {% if score_percent >= 80 %}
           <span class="perf-icon">🏆</span>
           <span class="perf-text">Excellent! Outstanding performance!</span>
-        {% elif score_percent >= 60 %}
+          {% elif score_percent >= 60 %}
           <span class="perf-icon">👍</span>
           <span class="perf-text">Good Job! Keep it up!</span>
-        {% elif score_percent >= 40 %}
+          {% elif score_percent >= 40 %}
           <span class="perf-icon">📚</span>
           <span class="perf-text">Fair attempt. Review and retry!</span>
-        {% else %}
+          {% else %}
           <span class="perf-icon">💪</span>
           <span class="perf-text">Keep studying — you'll get there!</span>
-        {% endif %}
+          {% endif %}
+        </div>
       </div>
-    </div>
 
-    <!-- Detailed answers -->
-    <h2 class="section-title">Question Review</h2>
+      <!-- ── ADDED BY YOU: REVISION TIMER ──────────────────────────── -->
+      {% if revision_info %}
+      <div
+        style="
+          margin: 30px 0;
+          padding: 28px;
+          border-radius: 16px;
+          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
+          color: white;
+        "
+      >
+        <h2 style="margin: 0 0 6px 0; font-size: 1.3rem; color: #a78bfa">
+          ⏰ Next Revision Scheduled
+        </h2>
+        <p style="margin: 0 0 4px 0; color: #cbd5e1; font-size: 0.95rem">
+          Based on your performance, revise this topic in
+          <strong style="color: #f59e0b"
+            >{{ revision_info.revise_in_days }} days</strong
+          >
+        </p>
+        {% set urgency_color = '#ef4444' if revision_info.urgency == 'critical'
+        else '#f59e0b' if revision_info.urgency == 'soon' else '#3b82f6' if
+        revision_info.urgency == 'moderate' else '#22c55e' %}
+        <p
+          style="margin: 0 0 20px 0; color: #94a3b8; font-size: 0.85rem; --urgency-color: {{ urgency_color }};"
+        >
+          Scheduled date:
+          <strong style="color: #e2e8f0"
+            >{{ revision_info.revision_date }}</strong
+          >
+          &nbsp;|&nbsp; Status:
+          <strong style="color: var(--urgency-color)"
+            >{{ revision_info.urgency | upper }}</strong
+          >
+        </p>
 
-    <div class="review-list">
-      {% for r in results %}
-      <div class="review-card {% if r.is_correct %}correct{% else %}wrong{% endif %}">
-
-        <div class="review-top">
-          <span class="review-num">Q{{ loop.index }}</span>
-          <span class="review-verdict">
-            {% if r.is_correct %}✓ Correct{% else %}✗ Wrong{% endif %}
-          </span>
+        <div
+          id="countdown-display"
+          style="
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #f59e0b;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-family: monospace;
+          "
+        >
+          Calculating...
         </div>
 
-        <p class="review-question">{{ r.question }}</p>
+        <div id="start-test-btn" style="display: none; margin-top: 10px">
+          <a
+            href="/my-documents"
+            style="
+              display: inline-block;
+              padding: 14px 36px;
+              background: #22c55e;
+              color: white;
+              border-radius: 10px;
+              text-decoration: none;
+              font-size: 1.1rem;
+              font-weight: 700;
+            "
+          >
+            Start Revision Test Now →
+          </a>
+          <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 8px">
+            Click to pick the same document and retake the quiz
+          </p>
+        </div>
 
-        <div class="review-options">
-          {% for key, value in r.options.items() %}
-          <div class="review-option
-            {% if key == r.correct_answer %}opt-correct{% endif %}
-            {% if key == r.user_answer and not r.is_correct %}opt-user-wrong{% endif %}">
-            <span class="opt-key">{{ key }}</span>
-            <span class="opt-val">{{ value }}</span>
-            {% if key == r.correct_answer %}
-              <span class="opt-tag correct-tag">✓ Correct</span>
-            {% endif %}
-            {% if key == r.user_answer and not r.is_correct %}
-              <span class="opt-tag wrong-tag">Your answer</span>
-            {% endif %}
+        <div style="margin-top: 16px">
+          <a
+            href="/my-revisions"
+            style="color: #a78bfa; font-size: 0.85rem; text-decoration: none"
+          >
+            View all my revision schedules →
+          </a>
+        </div>
+      </div>
+
+      <script>
+        const revisionDate = new Date(
+          "{{ revision_info.revision_date }}" + "T00:00:00",
+        );
+
+        function updateCountdown() {
+          const now = new Date();
+          const diff = revisionDate - now;
+
+          if (diff <= 0) {
+            document.getElementById("countdown-display").innerHTML =
+              "🎯 Time to revise!";
+            document.getElementById("countdown-display").style.color =
+              "#22c55e";
+            document.getElementById("start-test-btn").style.display = "block";
+            return;
+          }
+
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+          );
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          document.getElementById("countdown-display").innerHTML =
+            days +
+            "d &nbsp;" +
+            hours +
+            "h &nbsp;" +
+            minutes +
+            "m &nbsp;" +
+            seconds +
+            "s";
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      </script>
+      {% endif %}
+      <!-- ── END ADDED BY YOU ───────────────────────────────────────── -->
+
+      <h2 class="section-title">Question Review</h2>
+
+      <div class="review-list">
+        {% for r in results %}
+        <div
+          class="review-card {% if r.is_correct %}correct{% else %}wrong{% endif %}"
+        >
+          <div class="review-top">
+            <span class="review-num">Q{{ loop.index }}</span>
+            <span class="review-verdict">
+              {% if r.is_correct %}✓ Correct{% else %}✗ Wrong{% endif %}
+            </span>
           </div>
-          {% endfor %}
+          <p class="review-question">{{ r.question }}</p>
+          <div class="review-options">
+            {% for key, value in r.options.items() %}
+            <div
+              class="review-option {% if key == r.correct_answer %}opt-correct{% endif %} {% if key == r.user_answer and not r.is_correct %}opt-user-wrong{% endif %}"
+            >
+              <span class="opt-key">{{ key }}</span>
+              <span class="opt-val">{{ value }}</span>
+              {% if key == r.correct_answer %}
+              <span class="opt-tag correct-tag">✓ Correct</span>
+              {% endif %} {% if key == r.user_answer and not r.is_correct %}
+              <span class="opt-tag wrong-tag">Your answer</span>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
         </div>
-
+        {% endfor %}
       </div>
-      {% endfor %}
+
+      <div class="result-actions">
+        <a href="/" class="btn-primary">
+          <span class="btn-text">Upload New PDF</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
     </div>
 
-    <!-- Action buttons -->
-    <div class="result-actions">
-      <a href="/" class="btn-primary">
-        <span class="btn-text">Upload New PDF</span>
-        <span class="btn-arrow">→</span>
-      </a>
-    </div>
-
-  </div><!-- /result-container -->
-
-  <!-- Pass score to JS for animation -->
-  <!-- Pass score to JS for animation -->
-  <script>
-    const SCORE_PERCENT = parseFloat("{{ score_percent }}");
-  </script>
-  <script src="{{ url_for('static', filename='script.js') }}"></script></body>
+    <script>
+      const SCORE_PERCENT = parseFloat("{{ score_percent }}");
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
 </html>

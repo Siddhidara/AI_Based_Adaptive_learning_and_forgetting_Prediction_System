@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdaptLearn — Revision Schedule</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body class="upload-page">
+    <div class="grain"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="upload-container">
+      <!-- Header -->
+      <header class="site-header">
+        <div class="logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">AdaptLearn</span>
+        </div>
+        <div class="auth-info">
+          <a href="/my-documents" class="btn-documents">📚 My Documents</a>
+          <a href="/" class="btn-back">← Upload PDF</a>
+          <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+      </header>
+
+      <!-- Title -->
+      <div class="hero-text">
+        <h1>📅 Revision Schedule</h1>
+        <p class="hero-sub">See when each document needs your next review.</p>
+      </div>
+
+      {% if revision_list %}
+
+      <div class="review-list">
+        {% for item in revision_list %}
+        <div class="review-card">
+          <div class="review-top">
+            <div>
+              <div class="review-num">Next Review</div>
+              <h2 style="font-size: 1.1rem; margin-top: 0.45rem">
+                {{ item.document_title }}
+              </h2>
+            </div>
+            <div style="text-align: right">
+              <span class="stat-num" style="font-size: 1.8rem"
+                >{{ item.days_left }}</span
+              >
+              <div class="stat-tag" style="margin-top: 0.25rem">days left</div>
+            </div>
+          </div>
+
+          <div class="review-options" style="gap: 1rem">
+            <div
+              class="review-option"
+              style="
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 16px;
+                padding: 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+              "
+            >
+              <span
+                class="opt-key"
+                style="font-weight: 700; color: var(--chalk)"
+                >Next revision date</span
+              >
+              <div
+                class="opt-val"
+                style="margin-top: 0.5rem; color: var(--muted)"
+              >
+                {{ item.revision_date }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      {% else %}
+
+      <div
+        class="empty-state"
+        style="
+          text-align: center;
+          padding: 3rem 2rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: var(--radius);
+        "
+      >
+        <h2>No revisions scheduled</h2>
+        <p>Complete a quiz to generate your revision schedule.</p>
+        <a href="/" class="btn-primary">Start Learning</a>
+      </div>
+
+      {% endif %}
+    </div>
+  </body>
+</html>
