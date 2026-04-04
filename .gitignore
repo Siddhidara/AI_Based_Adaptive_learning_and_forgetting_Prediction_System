@@ -69,3 +69,16 @@ uploads/
 
 # Logs
 *.log
+# Machine learning / model artifacts
+*.pt
+*.sav
+
+# Python / env
+.venv/
+pytest_cache/
+.pytest_cache/
+
+# Editor / OS temp
+*.log
+*.tmp
+*.bak
